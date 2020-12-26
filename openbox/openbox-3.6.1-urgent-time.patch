@@ -1,0 +1,25 @@
+--- openbox/openbox/frame.c	2014-11-05 20:19:42.000000000 +0500
++++ openbox/openbox/frame.c~	2020-12-25 23:54:39.427089515 +0500
+@@ -1670,13 +1670,6 @@
+ static gboolean flash_timeout(gpointer data)
+ {
+     ObFrame *self = data;
+-    GTimeVal now;
+-
+-    g_get_current_time(&now);
+-    if (now.tv_sec > self->flash_end.tv_sec ||
+-        (now.tv_sec == self->flash_end.tv_sec &&
+-         now.tv_usec >= self->flash_end.tv_usec))
+-        self->flashing = FALSE;
+ 
+     if (!self->flashing) {
+         if (self->focused != self->flash_on)
+@@ -1702,8 +1695,6 @@
+         self->flash_timer = g_timeout_add_full(G_PRIORITY_DEFAULT,
+                                                600, flash_timeout, self,
+                                                flash_done);
+-    g_get_current_time(&self->flash_end);
+-    g_time_val_add(&self->flash_end, G_USEC_PER_SEC * 5);
+ 
+     self->flashing = TRUE;
+ }
